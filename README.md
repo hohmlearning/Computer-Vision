@@ -1,2 +1,2 @@
 # Computer-Vision
-Simple methods in Computer Vision
+Simple methods for Computer Vision
