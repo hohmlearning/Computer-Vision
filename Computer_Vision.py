@@ -4,13 +4,14 @@ def otsu (img_np):
     '''
     Calculate the Otsu's threshold for an image.
     
-    This function implements Otsu's method for automatic thresholding. It finds the 
+    This function implements Otsu's method [1] for automatic thresholding. It finds the 
     threshold that maximizes the inter-class variance and minimizes the intra-class 
     variance, i.e., the variance within each class of pixels (those above and those below the threshold). 
     The function is designed to work with images represented as 2D NumPy arrays of unsigned integer 
     type. It raises a TypeError if the image is not of an unsigned integer type. If the 
     image contains only one unique intensity, the function returns this value as the 
     threshold.
+    [1] N. Otsu, A Threshold Selection Method from Gray-Level Histograms, IEEE Trans. Syst., Man, Cybern. 9 (1979) 62–66
     
     Parameters
     ----------
