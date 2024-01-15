@@ -28,6 +28,12 @@ def otsu (img_np):
         The computed Otsu's threshold. This is an intensity value that separates the image
         into two classes (foreground and background) in a way that minimizes the intra-class 
         variance.
+    unique_intensivity : np.ndarray
+        An array containing the unique intensity values present in the image.
+    frequencies : np.ndarray
+        An array containing the corresponding frequencies of the unique intensity values in the image.
+    var_between : np.ndarray
+        An array containing the inter-class variances for each threshold considered during Otsu's method.
     '''
     if np.issubdtype(img_np.dtype, np.unsignedinteger) == False:
         string = 'Image type = {}. Convert the image in unsigned integer!'.format(img_np.dtype)
@@ -36,7 +42,7 @@ def otsu (img_np):
     
     if unique_intensivity.shape[0] == 1:
         threshold_otsu = unique_intensivity[0]
-        return (threshold_otsu)
+        return (threshold_otsu, None, None, None)
         
     else:
         N, M = img_np.shape
@@ -50,6 +56,8 @@ def otsu (img_np):
         
         var_between_max = 0
         threshold_otsu = 0
+        var_between_list = []
+        
         for n, threshold in enumerate(unique_intensivity[:-1]):
             p_0_t = p[n]
             w_0_t_new = w_0_t + p_0_t
@@ -57,23 +65,12 @@ def otsu (img_np):
             w_0_t = w_0_t_new
             mu_1_t = (mu_total - w_0_t * mu_0_t) / (1-w_0_t)
             var_between = (w_0_t * (1 - w_0_t)) * (mu_0_t - mu_1_t)**2
-            
+            var_between_list.append(var_between)
             if var_between > var_between_max:
                 var_between_max = var_between 
                 threshold_otsu = threshold
-    return (threshold_otsu)
+        var_between_list.append(0)
+        var_between = np.array(var_between_list)
+    return (threshold_otsu, unique_intensivity, frequencies, var_between)
         
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
